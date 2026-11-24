@@ -1,11 +1,12 @@
 // Service worker: guarda tudo no celular pra funcionar sem internet.
 // Mudou algum arquivo? Aumente a versão abaixo pra forçar a atualização.
-const VERSAO = "tanquinho-v1";
+const VERSAO = "tanquinho-v2";
 const ARQUIVOS = [
   "./",
   "index.html",
   "css/style.css",
   "js/data.js",
+  "js/anim.js",
   "js/app.js",
   "manifest.webmanifest",
   "icons/icon-192.png",

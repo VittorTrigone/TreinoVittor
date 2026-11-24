@@ -225,8 +225,9 @@
     const aquec = `<div class="card">
       <div class="row">${emo("🔥", "#f59e0b")}
         <div class="grow"><h3 style="font-size:16px">Aquecimento · 5 min</h3>
-        <small class="muted">${AQUECIMENTO.map((a) => a.nome).join(" · ")}</small></div>
+        <small class="muted">${AQUECIMENTO.length} movimentos · guiado com timer</small></div>
         ${d.aquec ? '<span class="pill ok">✓ feito</span>' : ""}</div>
+      <div class="fig-row">${AQUECIMENTO.map((a) => `<div><div class="fig mini" data-anim="${a.anim}"></div><small>${a.nome}</small></div>`).join("")}</div>
       <button class="btn block ${d.aquec ? "" : "primary"}" style="margin-top:12px" data-act="aquecer" ${ehHoje ? "" : "disabled"}>▶ ${d.aquec ? "Fazer de novo" : "Iniciar aquecimento guiado"}</button>
     </div>`;
 
@@ -242,13 +243,14 @@
         return `<button class="set ${on ? "on" : ""}" data-act="set" data-id="${id}" data-i="${i}" ${ehHoje ? "" : "disabled"}>${on ? "✓" : i + 1}</button>`;
       }).join("");
       return `<div class="card ex ${done ? "done" : ""} ${aberto ? "open" : ""}">
-        <div class="ex-head">${emo(ex.emoji, p.cor)}
+        <div class="ex-head"><div class="fig sm" data-anim="${id}" data-act="abrir" data-id="${id}" role="button" aria-label="Ver como fazer"></div>
           <div class="grow"><h3>${ex.nome}</h3>
             <div class="ex-meta"><span class="pill">${ex.series} × ${ex.tipo === "tempo" ? ex.seg + "s" : ex.reps}</span><span class="pill">⏱ ${ex.descanso}s descanso</span></div>
           </div></div>
         <div class="sets">${sets}</div>
         <button class="toggle-more" data-act="abrir" data-id="${id}">${aberto ? "▲ Fechar" : "▼ Como fazer"}</button>
         <div class="ex-more">
+          ${aberto ? `<div class="fig lg" data-anim="${id}"></div>` : ""}
           <ol>${ex.como.map((c) => `<li>${c}</li>`).join("")}</ol>
           <div class="lvl"><div class="e"><b>Mais fácil</b>${ex.facil}</div><div class="h"><b>Mais difícil</b>${ex.dificil}</div></div>
         </div>
@@ -265,7 +267,7 @@
           <div class="grow"><h3 style="font-size:16px">${H.nome}</h3>
           <small class="muted">${H.trabalho}s forte / ${H.descanso}s descanso · ${H.rodadas} rodadas · ~${min} min</small></div>
           ${d.hiit ? '<span class="pill ok">✓ feito</span>' : ""}</div>
-        <div class="row" style="gap:8px;flex-wrap:wrap;margin-top:12px">${H.exercicios.map((e) => `<span class="pill">${e.emoji} ${e.nome}</span>`).join("")}</div>
+        <div class="fig-row">${H.exercicios.map((e) => `<div><div class="fig mini" data-anim="${e.anim}"></div><small>${e.nome}</small></div>`).join("")}</div>
         <button class="btn block primary" style="margin-top:14px" data-act="hiit" ${ehHoje ? "" : "disabled"}>▶ ${d.hiit ? "Fazer de novo" : "Iniciar HIIT com timer"}</button>
       </div>`;
     }
@@ -600,6 +602,7 @@
       requestAnimationFrame(() => app.querySelectorAll("[data-off],[data-w],[data-y]").forEach((el) => (el.style.transition = "")));
     }
     document.querySelectorAll("#tabbar button").forEach((b) => b.classList.toggle("active", b.dataset.tab === ui.tab));
+    if (typeof ANIM !== "undefined") ANIM.mount(app);
   }
 
   function irPara(tab) {
@@ -631,8 +634,8 @@
       const d = dia(); const arr = (d.sets[id] ||= []);
       if (ex.tipo === "tempo" && !arr[i]) {
         openPlayer(ex.nome, [
-          { nome: ex.nome, emoji: ex.emoji, seg: 5, fase: "prep", dica: "Se posiciona…" },
-          { nome: ex.nome, emoji: ex.emoji, seg: ex.seg, fase: "work", dica: ex.como[ex.como.length - 1] },
+          { nome: ex.nome, emoji: ex.emoji, anim: id, seg: 5, fase: "prep", dica: "Se posiciona…" },
+          { nome: ex.nome, emoji: ex.emoji, anim: id, seg: ex.seg, fase: "work", dica: ex.como[ex.como.length - 1] },
         ], () => { arr[i] = true; save(); posSerie(ex, id); });
         return;
       }
@@ -642,22 +645,23 @@
     },
 
     aquecer: () => {
-      const steps = [{ nome: "Aquecimento", emoji: "🔥", seg: 5, fase: "prep", dica: "Bora soltar o corpo!" }]
-        .concat(AQUECIMENTO.map((a) => ({ nome: a.nome, emoji: a.emoji, seg: a.seg, fase: "work", dica: a.dica })));
+      const steps = [{ nome: "Aquecimento", emoji: "🔥", anim: AQUECIMENTO[0].anim, seg: 5, fase: "prep", dica: "Bora soltar o corpo!" }]
+        .concat(AQUECIMENTO.map((a) => ({ nome: a.nome, emoji: a.emoji, anim: a.anim, seg: a.seg, fase: "work", dica: a.dica })));
       openPlayer("Aquecimento", steps, () => { dia().aquec = true; save(); render(); });
     },
     hiit: () => {
       const p = SEMANA[planoIdx()];
       const H = p.hiit === "curto" ? HIIT_CURTO : HIIT_LONGO;
-      const steps = [{ nome: "Prepara!", emoji: "⚡", seg: 10, fase: "prep", dica: `${H.rodadas} rodadas de ${H.exercicios.length} exercícios` }];
+      const steps = [{ nome: "Prepara!", emoji: "⚡", anim: H.exercicios[0].anim, seg: 10, fase: "prep", dica: `${H.rodadas} rodadas de ${H.exercicios.length} exercícios` }];
       for (let r = 0; r < H.rodadas; r++) {
         H.exercicios.forEach((e, i) => {
-          steps.push({ nome: e.nome, emoji: e.emoji, seg: H.trabalho, fase: "work", dica: `Rodada ${r + 1} de ${H.rodadas} · vai com tudo!` });
+          steps.push({ nome: e.nome, emoji: e.emoji, anim: e.anim, seg: H.trabalho, fase: "work", dica: `Rodada ${r + 1} de ${H.rodadas} · vai com tudo!` });
           const ultimo = i === H.exercicios.length - 1;
+          const prox = H.exercicios[(i + 1) % H.exercicios.length].anim;
           if (!(ultimo && r === H.rodadas - 1)) {
             steps.push(ultimo
-              ? { nome: "Descanso entre rodadas", emoji: "😮‍💨", seg: 40, fase: "rest", dica: "Bebe um gole d'água." }
-              : { nome: "Descansa", emoji: "😮‍💨", seg: H.descanso, fase: "rest", dica: "Respira pelo nariz." });
+              ? { nome: "Descanso entre rodadas", emoji: "😮‍💨", anim: prox, seg: 40, fase: "rest", dica: "Bebe um gole d'água." }
+              : { nome: "Descansa", emoji: "😮‍💨", anim: prox, seg: H.descanso, fase: "rest", dica: "Respira pelo nariz." });
           }
         });
       }
@@ -913,7 +917,12 @@
     P.left = st.seg; P.end = Date.now() + st.seg * 1000; P.last = -1;
     $("#player").dataset.phase = st.fase;
     $("#pPhase").textContent = FASES[st.fase];
+    $("#pEmoji").hidden = !!st.anim;
     $("#pEmoji").textContent = st.emoji;
+    const fig = $("#pFig");
+    fig.hidden = !st.anim;
+    fig.classList.toggle("dim", st.fase !== "work");
+    if (st.anim && fig.dataset.anim !== st.anim) ANIM.set(fig, st.anim);
     $("#pName").textContent = st.nome;
     $("#pTip").textContent = st.dica || "";
     const nx = P.steps.slice(P.i + 1).find((s) => s.fase === "work");
@@ -952,6 +961,8 @@
     $("#player").dataset.phase = "done";
     $("#pPhase").textContent = FASES.done;
     $("#pEmoji").textContent = "🏆";
+    $("#pEmoji").hidden = false;
+    $("#pFig").hidden = true;
     $("#pTime").textContent = "✓";
     $("#pName").textContent = "Mandou bem!";
     $("#pTip").textContent = "Respira, bebe água e segue o plano. 💪";

@@ -24,12 +24,12 @@ const AGUA_CHECKPOINTS = [
 
 // ---------------- AQUECIMENTO (todo dia, ~5 min)
 const AQUECIMENTO = [
-  { nome: "Polichinelo", emoji: "⭐", seg: 60, dica: "Ritmo leve, só pra esquentar." },
-  { nome: "Agachamento livre", emoji: "🦵", seg: 40, dica: "10 reps devagar, desce até onde for confortável." },
-  { nome: "Rotação de braços", emoji: "🔄", seg: 30, dica: "10 pra frente, 10 pra trás." },
-  { nome: "Gato-vaca", emoji: "🐈", seg: 40, dica: "De quatro apoios: arredonda e arqueia as costas, 10x." },
-  { nome: "Afundo com giro de tronco", emoji: "🌀", seg: 40, dica: "Abre o quadril e a coluna, 5 de cada lado." },
-  { nome: "Prancha", emoji: "🧱", seg: 20, dica: "Barriga contraída, quadril alinhado." },
+  { nome: "Polichinelo", emoji: "⭐", anim: "polichinelo", seg: 60, dica: "Ritmo leve, só pra esquentar." },
+  { nome: "Agachamento livre", emoji: "🦵", anim: "agachamento", seg: 40, dica: "10 reps devagar, desce até onde for confortável." },
+  { nome: "Rotação de braços", emoji: "🔄", anim: "rotacaoBracos", seg: 30, dica: "10 pra frente, 10 pra trás." },
+  { nome: "Gato-vaca", emoji: "🐈", anim: "gatoVaca", seg: 40, dica: "De quatro apoios: arredonda e arqueia as costas, 10x." },
+  { nome: "Afundo com giro de tronco", emoji: "🌀", anim: "afundoGiro", seg: 40, dica: "Abre o quadril e a coluna, 5 de cada lado." },
+  { nome: "Prancha", emoji: "🧱", anim: "prancha", seg: 20, dica: "Barriga contraída, quadril alinhado." },
 ];
 
 // ---------------- BIBLIOTECA DE EXERCÍCIOS
@@ -166,21 +166,21 @@ const EX = {
 const HIIT_CURTO = {
   nome: "HIIT 10 min", trabalho: 40, descanso: 20, rodadas: 2,
   exercicios: [
-    { nome: "Mountain climber", emoji: "⛰️" },
-    { nome: "Polichinelo", emoji: "⭐" },
-    { nome: "Agachamento com salto", emoji: "🦘" },
-    { nome: "Burpee", emoji: "🔥" },
-    { nome: "Corrida parada (joelho alto)", emoji: "🏃" },
+    { nome: "Mountain climber", emoji: "⛰️", anim: "mountain" },
+    { nome: "Polichinelo", emoji: "⭐", anim: "polichinelo" },
+    { nome: "Agachamento com salto", emoji: "🦘", anim: "agachSalto" },
+    { nome: "Burpee", emoji: "🔥", anim: "burpee" },
+    { nome: "Corrida parada (joelho alto)", emoji: "🏃", anim: "joelhoAlto" },
   ],
 };
 const HIIT_LONGO = {
   nome: "HIIT 20 min", trabalho: 40, descanso: 20, rodadas: 4,
   exercicios: [
-    { nome: "Burpee", emoji: "🔥" },
-    { nome: "Agachamento com salto", emoji: "🦘" },
-    { nome: "Mountain climber", emoji: "⛰️" },
-    { nome: "Afundo alternado com salto", emoji: "⚡" },
-    { nome: "Polichinelo", emoji: "⭐" },
+    { nome: "Burpee", emoji: "🔥", anim: "burpee" },
+    { nome: "Agachamento com salto", emoji: "🦘", anim: "agachSalto" },
+    { nome: "Mountain climber", emoji: "⛰️", anim: "mountain" },
+    { nome: "Afundo alternado com salto", emoji: "⚡", anim: "afundoSalto" },
+    { nome: "Polichinelo", emoji: "⭐", anim: "polichinelo" },
   ],
 };
 
