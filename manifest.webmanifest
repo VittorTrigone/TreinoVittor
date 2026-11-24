@@ -1,0 +1,21 @@
+{
+  "name": "Projeto Tanquinho",
+  "short_name": "Tanquinho",
+  "description": "Treino em casa, dieta, água e progresso — funciona sem internet.",
+  "lang": "pt-BR",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0b0b14",
+  "theme_color": "#0b0b14",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Treino de hoje", "url": "./#treino", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Beber água", "url": "./#agua", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] }
+  ]
+}

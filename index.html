@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Projeto Tanquinho</title>
+  <meta name="description" content="Treino em casa, dieta, água e progresso — tudo offline.">
+  <meta name="theme-color" content="#0b0b14">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="bg-blobs" aria-hidden="true"><span></span><span></span><span></span></div>
+
+  <main id="app" class="app"></main>
+
+  <!-- Barra de navegação -->
+  <nav class="tabbar" id="tabbar">
+    <button data-tab="hoje" class="active" aria-label="Hoje">
+      <svg viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>
+      <span>Hoje</span>
+    </button>
+    <button data-tab="treino" aria-label="Treino">
+      <svg viewBox="0 0 24 24"><path d="M6.5 6.5v11M17.5 6.5v11M3 9v6M21 9v6M6.5 12h11"/></svg>
+      <span>Treino</span>
+    </button>
+    <button data-tab="dieta" aria-label="Dieta">
+      <svg viewBox="0 0 24 24"><path d="M7 3v8a2 2 0 0 0 2 2v8M11 3v8M3 3v8a2 2 0 0 0 2 2M17 21V3c2.5 1 4 3.5 4 7v3h-4"/></svg>
+      <span>Dieta</span>
+    </button>
+    <button data-tab="agua" aria-label="Água">
+      <svg viewBox="0 0 24 24"><path d="M12 2.7S5 10 5 14.5a7 7 0 0 0 14 0C19 10 12 2.7 12 2.7z"/></svg>
+      <span>Água</span>
+    </button>
+    <button data-tab="progresso" aria-label="Progresso">
+      <svg viewBox="0 0 24 24"><path d="M3 20h18M5 16l4-5 4 3 6-8"/></svg>
+      <span>Progresso</span>
+    </button>
+  </nav>
+
+  <!-- Timer de descanso (flutuante) -->
+  <div class="rest" id="rest" hidden>
+    <div class="rest-ring">
+      <svg viewBox="0 0 100 100"><circle class="trk" cx="50" cy="50" r="44"/><circle class="bar" id="restBar" cx="50" cy="50" r="44"/></svg>
+      <b id="restTime">60</b>
+    </div>
+    <div class="rest-info">
+      <small>DESCANSO</small>
+      <strong id="restLabel">Respira fundo…</strong>
+      <div class="rest-btns">
+        <button data-rest="-15">−15s</button>
+        <button data-rest="+15">+15s</button>
+        <button data-rest="skip" class="primary">Pular</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Player em tela cheia (aquecimento / HIIT / isometria) -->
+  <div class="player" id="player" hidden>
+    <div class="player-top">
+      <button class="icon-btn" id="pClose" aria-label="Fechar">✕</button>
+      <span id="pTitle">Treino</span>
+      <span id="pCount">1/10</span>
+    </div>
+    <div class="player-phase" id="pPhase">PREPARA</div>
+    <div class="player-ring">
+      <svg viewBox="0 0 200 200"><circle class="trk" cx="100" cy="100" r="90"/><circle class="bar" id="pBar" cx="100" cy="100" r="90"/></svg>
+      <div class="player-center">
+        <div class="player-emoji" id="pEmoji">🔥</div>
+        <div class="player-time" id="pTime">10</div>
+      </div>
+    </div>
+    <h2 class="player-name" id="pName">Exercício</h2>
+    <p class="player-tip" id="pTip"></p>
+    <div class="player-next" id="pNext"></div>
+    <div class="player-ctrl">
+      <button class="icon-btn big" id="pPrev" aria-label="Anterior">⏮</button>
+      <button class="play-btn" id="pPlay" aria-label="Pausar">❚❚</button>
+      <button class="icon-btn big" id="pSkip" aria-label="Próximo">⏭</button>
+    </div>
+    <div class="player-dots" id="pDots"></div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <canvas id="confetti" aria-hidden="true"></canvas>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
